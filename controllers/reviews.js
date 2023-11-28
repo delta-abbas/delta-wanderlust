@@ -5,6 +5,7 @@ const listing =require("../models/listing.js");
 module.exports.postReview = async(req,res)=>{
     let list = await listing.findById(req.params.id);
     let newreview = new review(req.body.review);
+    newreview.author =req.user._id;
     list.reviews.push(newreview);
 
     await newreview.save();

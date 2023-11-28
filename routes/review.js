@@ -5,6 +5,7 @@ const expressError = require("../utlits/expressError.js");
 const {reviewschema} = require("../schema.js");
 const review = require("../models/review.js");
 const listing =require("../models/listing.js");
+const{isLoggedIn,isOwner,isReviewAuthor} = require("../middleware.js");
 
 const controllerReview = require("../controllers/reviews.js")
 
@@ -19,13 +20,12 @@ const validatereview = (req,res,next)=>{
     }
 };
 
-
 //review
 //post route
- router.post("/",validatereview,wrapAsync(controllerReview.postReview));
+ router.post("/",isLoggedIn,validatereview,wrapAsync(controllerReview.postReview));
 
 //review delete route
- router.delete("/:reviewId",wrapAsync(controllerReview.destoryReview))
+ router.delete("/:reviewId",isReviewAuthor,wrapAsync(controllerReview.destoryReview))
 
 
 module.exports = router;

@@ -38,7 +38,14 @@ module.exports.renderNewForm = (req,res)=>{
 
 module.exports.showListing = async (req,res)=>{
     let {id} = req.params;
-    const listings = await listing.findById(id).populate("reviews").populate("owner");
+    const listings = await listing.findById(id)
+    .populate({
+        path : "reviews",
+        populate : {
+            path : "author"
+        }
+    })
+        .populate("owner");
     if(!listings) {
         req.flash("error","listing you requested does not exits!");
         res.redirect("/listings")
