@@ -36,7 +36,6 @@ module.exports.isReviewAuthor = async(req,res,next)=>{
             req.flash("error","you don't have access");
             return res.redirect(`/listings/${id}`)
         }
-      
-      
+
     next();
 };
