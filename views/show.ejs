@@ -75,7 +75,7 @@
                 <% for(list of  listings.reviews) { %>
                     <div  class="card col-5 ms-3 mb-3 ">
                         <div class="card-body mb-3"> 
-                            <h5 class="card-title"><%= list.author %></h5>
+                            <h5 class="card-title"><%= list.author.username %></h5>
                             <p class="starability-result" data-rating="<%= list.rating %>">
                             </p>
                             <p class="card-text"><%= list.comment %></p>
