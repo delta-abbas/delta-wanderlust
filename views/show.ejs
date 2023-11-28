@@ -70,22 +70,24 @@
 
            <% if(listings.reviews.length > 0) { %>
 
-            <div class="row mt-3">
-                <p><b>All Reviews</b></p>
-                <% for(list of  listings.reviews) { %>
-                    <div  class="card col-5 ms-3 mb-3 ">
-                        <div class="card-body mb-3"> 
-                            <h5 class="card-title"><%= list.author.username %></h5>
-                            <p class="starability-result" data-rating="<%= list.rating %>">
-                            </p>
-                            <p class="card-text"><%= list.comment %></p>
-                            <form method="POST" action="/listings/<%= listings._id %>/reviews/<%= list._id %>?_method=DELETE" > 
-                                <button class="btn btn-sm btn-dark">Delete</button>
-                            </form>
+                <div class="row mt-3">
+                    <p><b>All Reviews</b></p>
+                    <% for(list of  listings.reviews) { %>
+                        <div  class="card col-5 ms-3 mb-3 ">
+                            <div class="card-body mb-3"> 
+                                <h5 class="card-title"><%= list.author.username %></h5>
+                                <p class="starability-result" data-rating="<%= list.rating %>">
+                                </p>
+                                <p class="card-text"><%= list.comment %></p>
+                                
+                                    <form method="POST" action="/listings/<%= listings._id %>/reviews/<%= list._id %>?_method=DELETE" > 
+                                        <button class="btn btn-sm btn-dark">Delete</button>
+                                    </form>
+                                 
+                            </div>
                         </div>
-                    </div>
-                <% } %>      
-            </div>  
+                    <% } %>      
+                </div>  
             <% } %>  
         </div> 
         <div class="col-8 offset-3 mb-3">

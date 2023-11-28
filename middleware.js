@@ -32,9 +32,12 @@ module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
     
-        if (!Review.author.equals(res.locals.curruser._id)) {
+        if (res.locals.curruser && !Review.author.equals(res.locals.curruser._id)) {
             req.flash("error","you don't have access");
             return res.redirect(`/listings/${id}`)
+        }else if (!res.locals.curruser ){
+            req.flash("error","You need to be logged in to delete a review");
+            return res.redirect(`/login`);
         }
       
       
