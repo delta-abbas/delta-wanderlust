@@ -28,14 +28,40 @@ module.exports.isOwner = async(req,res,next)=>{
 };
 
 
-module.exports.isReviewAuthor = async(req,res,next)=>{
-    let {id,reviewId} = req.params;
-    let Review = await  review.findById(reviewId);
+// module.exports.isReviewAuthor = async(req,res,next)=>{
+//     let {id,reviewId} = req.params;
+//     let Review = await  review.findById(reviewId);
     
-        if (!Review.author.equals(res.locals.curruser._id)) {
-            req.flash("error","you don't have access");
-            return res.redirect(`/listings/${id}`)
+//         if (!Review.author.equals(res.locals.curruser._id)) {
+//             req.flash("error","you don't have access");
+//             return res.redirect(`/listings/${id}`)
+//         }
+
+//     next();
+// };
+ 
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+    try {
+        let { id, reviewId } = req.params;
+        let Review = await review.findById(reviewId);
+
+        // Check if Review or curruser is undefined
+        if (!Review || !res.locals.curruser || !res.locals.curruser._id) {
+            req.flash("error", "Unable to determine access rights");
+            return res.redirect(`/listings/${id}`);
         }
 
-    next();
+        // Check if the author of the review matches the current user
+        if (!Review.author.equals(res.locals.curruser._id)) {
+            req.flash("error", "You don't have access");
+            return res.redirect(`/listings/${id}`);
+        }
+
+        next();
+    } catch (error) {
+        console.error("Error in isReviewAuthor middleware:", error);
+        req.flash("error", "An error occurred. Please try again.");
+        return res.redirect(`/listings/${id}`);
+    }
 };
