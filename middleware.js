@@ -31,9 +31,16 @@ module.exports.isOwner = async(req,res,next)=>{
 module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
-    if( !Review.author.equals(res.locals.curruser._id)){
-        req.flash("error","you don't have access");
-      return res.redirect(`/listings/${id}`)
-    }
+    if (!res.locals.curruser || !res.locals.curruser._id) {
+        console.error('curruser or _id is undefined');
+        // Handle the error or log more information
+      } else {
+        // Your existing code
+        if (!Review.author.equals(res.locals.curruser._id)) {
+            req.flash("error","you don't have access");
+            return res.redirect(`/listings/${id}`)
+        }
+      }
+      
     next();
 };
