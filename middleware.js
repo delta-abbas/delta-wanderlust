@@ -32,10 +32,9 @@ module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
     
-        if (!Review.author.equals(res.locals.curruser)) {
-            req.flash("error","you don't have access");
-            return res.redirect(`/listings/${id}`)
-        }
-
+    if (!Review.author.equals(res.locals.curruser._id)) {
+        req.flash("error","you don't have access");
+        return res.redirect(`/listings/${id}`)
+    }
     next();
 };
