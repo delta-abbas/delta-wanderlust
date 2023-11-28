@@ -49,7 +49,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
         // Check if Review or curruser is undefined
         if (!Review || !res.locals.curruser || !res.locals.curruser._id) {
             req.flash("error", "Unable to determine access rights");
-            return res.redirect(`/listings/${id}`);
+            return res.redirect(`/listings`);
         }
 
         // Check if the author of the review matches the current user
@@ -62,6 +62,6 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     } catch (error) {
         console.error("Error in isReviewAuthor middleware:", error);
         req.flash("error", "An error occurred. Please try again.");
-        return res.redirect(`/listings/${id}`);
+        return res.redirect(`/listings`);
     }
 };
