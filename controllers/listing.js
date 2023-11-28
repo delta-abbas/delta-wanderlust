@@ -11,13 +11,13 @@ module.exports.index = async (req, res) => {
 
     // If it's a POST request with search parameters
     if (req.method === 'POST') {
-        const { country } = req.body;
+        const { location } = req.body;
           // Replace spaces with an optional space regex
-          const searchTerm = country.split('').join('\\s?').toLowerCase();
+          const searchTerm = location.split('').join('\\s?').toLowerCase();
 
         // Perform the search
         const results = await listing.find({
-            country: { $regex: new RegExp(searchTerm, "i") }
+            location : { $regex: new RegExp(searchTerm, "i") }
         });
          
         if(results.length === 0) {
