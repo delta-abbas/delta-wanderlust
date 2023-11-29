@@ -32,12 +32,12 @@ module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
 
-    console.log(Object.keys(res.locals.curruser));
+      
     
     if (!req.isAuthenticated()) {
         req.flash("error", "You must log in to create a new listing!");
         res.redirect("/login");
-    } else if (!Review.author.equals(res.locals.curruser.id)) {
+    } else if (!Review.author.equals(res.locals.curruser._id)) {
         req.flash("error", "You don't have access");
         res.redirect(`/listings/${id}`);
     } else {
