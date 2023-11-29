@@ -31,9 +31,6 @@ module.exports.isOwner = async(req,res,next)=>{
 module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
-
-      
-    
     if (!req.isAuthenticated()) {
         req.flash("error", "You must log in to create a new listing!");
         res.redirect("/login");

@@ -80,7 +80,7 @@
                                 </p>
                                 <p class="card-text"><%= list.comment %></p>
                                 <% if(curruser && curruser._id.equals(list.owner._id)){ %> 
-                                    <form method="POST" action="/listings/<%= listings._id %>/reviews/<%= list._id %>?_method=DELETE" > 
+                                    <form method="POST" action="/listings/<%= list._id %>/reviews/<%= list._id %>?_method=DELETE" > 
                                         <button class="btn btn-sm btn-dark">Delete</button>
                                     </form>
                                  <% } %>     
