@@ -31,10 +31,17 @@ module.exports.isOwner = async(req,res,next)=>{
 module.exports.isReviewAuthor = async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let Review = await  review.findById(reviewId);
+
+    console.log(Object.keys(res.locals.curruser));
     
-        if (!Review.author.equals(res.locals.curruser._id)) {
-            req.flash("error","you don't have access");
-            return res.redirect(`/listings/${id}`)
-        }
-    next();
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You must log in to create a new listing!");
+        res.redirect("/login");
+    } else if (!Review.author.equals(res.locals.curruser.id)) {
+        req.flash("error", "You don't have access");
+        res.redirect(`/listings/${id}`);
+    } else {
+        // Continue with the next middleware/route handler only if authenticated and the author
+        next();
+    }
 };
